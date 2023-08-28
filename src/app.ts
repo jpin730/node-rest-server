@@ -1,15 +1,7 @@
-import express = require('express');
-
 import 'dotenv/config';
 
-const app = express();
-const port = process.env.PORT;
+import { Server } from './models/server';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const server = new Server();
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${port}`);
-});
+server.listen();
