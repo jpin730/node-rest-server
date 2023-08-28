@@ -27,3 +27,7 @@ Run app in production mode
 ```
 npm start
 ```
+
+## Base URL
+
+https://jpin730-node-rest-server.vercel.app
