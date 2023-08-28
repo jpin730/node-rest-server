@@ -28,9 +28,6 @@ export class Server {
   }
 
   listen() {
-    this.app.listen(this.port, () => {
-      // eslint-disable-next-line no-console
-      console.log(`App listening on port ${this.port}`);
-    });
+    this.app.listen(this.port);
   }
 }
