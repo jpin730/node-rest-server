@@ -2,6 +2,7 @@ import express from 'express';
 import cors, { CorsOptions } from 'cors';
 
 import { usersRouter } from '../routes/usersRoute';
+import { dbConnection } from '../database/config';
 
 export class Server {
   private app = express();
@@ -13,8 +14,13 @@ export class Server {
   private usersPath = '/api/users';
 
   constructor() {
+    this.connectDatabase();
     this.middleware();
     this.routes();
+  }
+
+  private connectDatabase() {
+    dbConnection();
   }
 
   private middleware() {
@@ -28,6 +34,9 @@ export class Server {
   }
 
   listen() {
-    this.app.listen(this.port);
+    this.app.listen(this.port, () =>
+      // eslint-disable-next-line no-console
+      console.log(`Running on port ${this.port}`),
+    );
   }
 }
