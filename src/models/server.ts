@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 export class Server {
   private app = express();
@@ -11,6 +12,7 @@ export class Server {
   }
 
   private middleware() {
+    this.app.use(cors());
     this.app.use(express.static('public'));
   }
 
