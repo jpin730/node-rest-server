@@ -1,38 +1,32 @@
 import { Schema, model } from 'mongoose';
 
-import { Role } from '../utils/constants';
-
 interface IUser {
   username: string;
   email: string;
   password: string;
-  avatar?: string;
   role: string;
   status: boolean;
   google: boolean;
+  avatar?: string;
 }
 
 const UserSchema = new Schema<IUser>({
   username: {
     type: String,
-    required: [true, 'Username is required'],
+    required: true,
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
-  },
-  avatar: {
-    type: String,
+    required: true,
   },
   role: {
     type: String,
     required: true,
-    emun: [Role.ADMIN, Role.USER],
   },
   status: {
     type: Boolean,
@@ -42,6 +36,16 @@ const UserSchema = new Schema<IUser>({
     type: Boolean,
     default: false,
   },
+  avatar: {
+    type: String,
+  },
 });
+
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.__v;
+  delete user.password;
+  return user;
+};
 
 export const User = model<IUser>('User', UserSchema);
