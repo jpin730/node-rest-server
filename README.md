@@ -28,8 +28,8 @@ Run app in production mode
 npm start
 ```
 
-Build app
+Lint app
 
 ```
-npm run build
+npm run lint
 ```
