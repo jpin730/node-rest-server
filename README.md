@@ -25,7 +25,7 @@ npm run dev
 Run app in production mode
 
 ```
-npm start
+npm run build && npm start
 ```
 
 ## Base URL

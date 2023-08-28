@@ -1,7 +1,7 @@
 {
   "name": "node-rest-server",
   "scripts": {
-    "build": "npm ci && tsc",
+    "build": "npm ci --ignore-scripts && tsc",
     "start": "node dist/app.js",
     "dev": "nodemon --watch src --ext ts --exec 'ts-node' src/app.ts",
     "lint": "eslint .",

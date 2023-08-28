@@ -15,6 +15,7 @@ export class Server {
   constructor() {
     this.middleware();
     this.routes();
+    console.log(process.env.NODE_ENV);
   }
 
   private middleware() {
