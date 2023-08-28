@@ -1,4 +1,4 @@
-# Node Todo Board
+# Node REST Server
 
 This project is for implementation of a REST Server with ExpressJS.
 
@@ -26,10 +26,4 @@ Run app in production mode
 
 ```
 npm start
-```
-
-Lint app
-
-```
-npm run lint
 ```
