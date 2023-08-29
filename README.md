@@ -28,6 +28,10 @@ Run app in production mode
 npm run build && npm start
 ```
 
-## Base URL
+## App hosting
 
 https://jpin730-node-rest-server.onrender.com
+
+## API Reference
+
+https://documenter.getpostman.com/view/12311811/2s9Y5ZwNRY
