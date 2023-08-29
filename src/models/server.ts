@@ -4,6 +4,7 @@ import cors, { CorsOptions } from 'cors';
 import { usersRouter } from '../routes/usersRouter';
 import { dbConnection } from '../database/config';
 import { authRouter } from '../routes/authRouter';
+import { categoryRouter } from '../routes/categoryRouter';
 
 export class Server {
   private app = express();
@@ -11,9 +12,11 @@ export class Server {
   corsOptions: CorsOptions = {
     origin: process.env.CORS_ORIGIN,
   };
-
-  private usersPath = '/api/users';
-  private authPath = '/api/auth';
+  private path = {
+    users: '/api/users',
+    auth: '/api/auth',
+    category: '/api/category',
+  };
 
   constructor() {
     this.connectDatabase();
@@ -32,8 +35,9 @@ export class Server {
   }
 
   private routes() {
-    this.app.use(this.usersPath, usersRouter);
-    this.app.use(this.authPath, authRouter);
+    this.app.use(this.path.users, usersRouter);
+    this.app.use(this.path.auth, authRouter);
+    this.app.use(this.path.category, categoryRouter);
   }
 
   listen() {
