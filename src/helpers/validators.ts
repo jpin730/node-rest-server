@@ -8,9 +8,20 @@ export const isValidRole = async (role: string) => {
   }
 };
 
-export const emailExists = async (email: string) => {
+export const emailDoesNotExists = async (email: string) => {
   const emailExists = await User.findOne({ email });
   if (emailExists) {
     throw new Error('Email already exists');
+  }
+};
+
+export const userExist = async (id: string) => {
+  try {
+    const userExists = await User.findById(id);
+    if (!userExists) {
+      throw new Error();
+    }
+  } catch (error) {
+    throw new Error("User doesn't exist");
   }
 };

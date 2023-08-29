@@ -3,7 +3,11 @@ import { Router } from 'express';
 
 import { getUsers, postUser, putUser } from '../controllers/usersController';
 import { validateFields } from '../middlewares/validate-fields';
-import { emailExists, isValidRole } from '../helpers/validators';
+import {
+  emailDoesNotExists,
+  isValidRole,
+  userExist,
+} from '../helpers/validators';
 
 const usersRouter = Router();
 
@@ -17,11 +21,20 @@ usersRouter.post(
     }),
     check('email', 'Email format is invalid').isEmail(),
     check('role').custom(isValidRole),
-    check('email').custom(emailExists),
+    check('email').custom(emailDoesNotExists),
     validateFields,
   ],
   postUser,
 );
-usersRouter.put('/:id', putUser);
+usersRouter.put(
+  '/:id',
+  [
+    check('id', 'Id is invalid').isMongoId(),
+    check('id').custom(userExist),
+    check('role').custom(isValidRole),
+    validateFields,
+  ],
+  putUser,
+);
 
 export { usersRouter };

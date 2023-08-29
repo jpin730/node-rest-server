@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import bcrypt from 'bcryptjs';
 
 import { User } from '../models/user';
+import { encrypt } from '../helpers/encrypt';
 
 export const getUsers: RequestHandler = (req, res) => {
   const { query } = req;
@@ -17,18 +17,35 @@ export const postUser: RequestHandler = async (req, res) => {
     username,
   });
 
-  const salt = bcrypt.genSaltSync();
-  createdUser.password = bcrypt.hashSync(password, salt);
+  createdUser.password = encrypt(password);
 
   try {
     await createdUser.save();
     res.status(201).json({ createdUser });
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json(error);
   }
 };
 
-export const putUser: RequestHandler = (req, res) => {
+export const putUser: RequestHandler = async (req, res) => {
   const { body, params } = req;
-  res.status(201).json({ body, params });
+  delete body._id;
+  delete body.google;
+  delete body.email;
+  const { password, ...rest } = body;
+
+  if (password) {
+    rest.password = encrypt(password);
+  }
+
+  try {
+    const modifiedUser = await User.findByIdAndUpdate(
+      params.id as string,
+      rest,
+      { returnDocument: 'after' },
+    );
+    res.status(201).json({ modifiedUser });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
