@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import bcrypt from 'bcryptjs';
+import { compareSync } from 'bcryptjs';
 
 import { User } from '../models/user';
 import { generateJWT } from '../helpers/generateJWT';
@@ -21,7 +21,7 @@ export const login: RequestHandler = async (req, res) => {
         .json({ error: 'Email or password are incorrect - status' });
     }
 
-    const validPassword = bcrypt.compareSync(password, user.password);
+    const validPassword = compareSync(password, user.password);
     if (!validPassword) {
       return res.status(400).json({
         error: 'Email or password are incorrect - password',
