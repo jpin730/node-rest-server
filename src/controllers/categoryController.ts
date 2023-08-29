@@ -21,14 +21,16 @@ export const getAllCategories: RequestHandler = async (req, res) => {
       .limit(parsedLimit),
   ]);
 
-  res.json({ total, limit: parsedLimit, offset: parsedOffset, categories });
+  res
+    .status(200)
+    .json({ total, limit: parsedLimit, offset: parsedOffset, categories });
 };
 
 export const getCategory: RequestHandler = async (req, res) => {
   const { id } = req.params;
   const category = await Category.findById(id).populate('user', 'username');
 
-  res.json({ category });
+  res.status(200).json({ category });
 };
 
 export const postCategory: RequestHandler = async (req, res) => {
@@ -48,6 +50,40 @@ export const postCategory: RequestHandler = async (req, res) => {
   try {
     await createdCategory.save();
     res.status(201).json({ createdCategory });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const putCategory: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  let { name, user } = req.body;
+
+  name = name.toUpperCase();
+  user = req.body.user.id;
+
+  try {
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { name, user },
+      { new: true },
+    ).populate('user', 'username');
+
+    res.status(201).json({ updatedCategory });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const deleteCategory: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedCategory = await Category.findByIdAndUpdate(id, {
+      status: false,
+    }).populate('user', 'username');
+
+    res.status(201).json({ deletedCategory });
   } catch (error) {
     res.status(500).json(error);
   }
