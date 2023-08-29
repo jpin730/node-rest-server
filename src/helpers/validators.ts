@@ -1,3 +1,4 @@
+import { Category } from '../models/category';
 import { Role } from '../models/role';
 import { User } from '../models/user';
 
@@ -21,7 +22,18 @@ export const userExist = async (id: string) => {
     if (!userExists) {
       throw new Error();
     }
-  } catch (error) {
+  } catch {
     throw new Error("User doesn't exist");
+  }
+};
+
+export const categoryExists = async (id: string) => {
+  try {
+    const categoryExists = !!(await Category.findById(id));
+    if (!categoryExists) {
+      throw new Error();
+    }
+  } catch {
+    throw new Error("Category doesn't exist");
   }
 };

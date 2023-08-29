@@ -24,6 +24,13 @@ export const getAllCategories: RequestHandler = async (req, res) => {
   res.json({ total, limit: parsedLimit, offset: parsedOffset, categories });
 };
 
+export const getCategory: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  const category = await Category.findById(id).populate('user', 'username');
+
+  res.json({ category });
+};
+
 export const postCategory: RequestHandler = async (req, res) => {
   const name = req.body.name.toUpperCase();
 
