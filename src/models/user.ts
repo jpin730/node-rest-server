@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
+import { RolesEnum } from '../utils/constants';
 
 export interface IUser {
   username: string;
   email: string;
   password: string;
-  role: string;
+  role: RolesEnum;
   status: boolean;
   google: boolean;
   avatar?: string;
@@ -46,6 +47,8 @@ UserSchema.methods.toJSON = function () {
   delete user.__v;
   delete user.password;
   delete user.status;
+  user.uid = user._id;
+  delete user._id;
   return user;
 };
 

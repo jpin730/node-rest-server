@@ -7,12 +7,15 @@ import {
   postUser,
   putUser,
 } from '../controllers/usersController';
-import { validateFields } from '../middlewares/validate-fields';
+import { validateFields } from '../middlewares/validateFields';
 import {
   emailDoesNotExists,
   isValidRole,
   userExist,
 } from '../helpers/validators';
+import { validateJWT } from '../middlewares/validateJWT';
+import { hasRole, isAdmin } from '../middlewares/validateRoles';
+import { RolesEnum } from '../utils/constants';
 
 const usersRouter = Router();
 
@@ -44,6 +47,9 @@ usersRouter.put(
 usersRouter.delete(
   '/:id',
   [
+    validateJWT,
+    isAdmin,
+    hasRole(RolesEnum.ADMIN),
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(userExist),
     validateFields,
