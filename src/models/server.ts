@@ -5,6 +5,7 @@ import { usersRouter } from '../routes/usersRouter';
 import { dbConnection } from '../database/config';
 import { authRouter } from '../routes/authRouter';
 import { categoryRouter } from '../routes/categoryRouter';
+import { productRouter } from '../routes/productRouter';
 
 export class Server {
   private app = express();
@@ -16,6 +17,7 @@ export class Server {
     users: '/api/users',
     auth: '/api/auth',
     category: '/api/category',
+    product: '/api/product',
   };
 
   constructor() {
@@ -38,6 +40,7 @@ export class Server {
     this.app.use(this.path.users, usersRouter);
     this.app.use(this.path.auth, authRouter);
     this.app.use(this.path.category, categoryRouter);
+    this.app.use(this.path.product, productRouter);
   }
 
   listen() {
