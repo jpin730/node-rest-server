@@ -62,3 +62,18 @@ export const putUser: RequestHandler = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const deleteUser: RequestHandler = async (req, res) => {
+  const { params } = req;
+
+  try {
+    const deletedUser = await User.findByIdAndUpdate(
+      params.id as string,
+      { status: false },
+      { returnDocument: 'after' },
+    );
+    res.status(201).json({ deletedUser });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

@@ -1,7 +1,12 @@
 import { check } from 'express-validator';
 import { Router } from 'express';
 
-import { getUsers, postUser, putUser } from '../controllers/usersController';
+import {
+  deleteUser,
+  getUsers,
+  postUser,
+  putUser,
+} from '../controllers/usersController';
 import { validateFields } from '../middlewares/validate-fields';
 import {
   emailDoesNotExists,
@@ -35,6 +40,15 @@ usersRouter.put(
     validateFields,
   ],
   putUser,
+);
+usersRouter.delete(
+  '/:id',
+  [
+    check('id', 'Id is invalid').isMongoId(),
+    check('id').custom(userExist),
+    validateFields,
+  ],
+  deleteUser,
 );
 
 export { usersRouter };
