@@ -10,18 +10,18 @@ import {
 } from '../controllers/productController';
 import { validateJWT } from '../middlewares/validateJWT';
 import { validateFields } from '../middlewares/validateFields';
-import { categoryExists } from '../helpers/validators';
+import { categoryExists, productExists } from '../helpers/validators';
 
 const productRouter = Router();
 
 productRouter.get('/', getAllProducts);
 productRouter.get(
   '/:id',
-  //   [
-  //     check('id', 'Id is invalid').isMongoId(),
-  //     check('id').custom(categoryExists),
-  //     validateFields,
-  //   ],
+  [
+    check('id', 'Id is invalid').isMongoId(),
+    check('id').custom(productExists),
+    validateFields,
+  ],
   getProduct,
 );
 productRouter.post(

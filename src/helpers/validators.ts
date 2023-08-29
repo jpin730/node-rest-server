@@ -1,4 +1,5 @@
 import { Category } from '../models/category';
+import { Product } from '../models/product';
 import { Role } from '../models/role';
 import { User } from '../models/user';
 
@@ -35,5 +36,16 @@ export const categoryExists = async (id: string) => {
     }
   } catch {
     throw new Error("Category doesn't exist");
+  }
+};
+
+export const productExists = async (id: string) => {
+  try {
+    const productExists = !!(await Product.findById(id));
+    if (!productExists) {
+      throw new Error();
+    }
+  } catch {
+    throw new Error("Product doesn't exist");
   }
 };

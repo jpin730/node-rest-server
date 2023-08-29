@@ -1,13 +1,42 @@
 import { RequestHandler } from 'express';
+import { FilterQuery } from 'mongoose';
 
-import { Product } from '../models/product';
+import { IProduct, Product } from '../models/product';
+import { intParser } from '../helpers/intParser';
+import { DEFAULT_LIMIT, DEFAULT_OFFSET } from '../utils/constants';
 
 export const getAllProducts: RequestHandler = async (req, res) => {
-  res.status(200).json({ req });
+  const { limit, offset } = req.query;
+
+  const parsedLimit = intParser(limit as string, DEFAULT_LIMIT);
+  const parsedOffset = intParser(offset as string, DEFAULT_OFFSET);
+
+  const filter: FilterQuery<IProduct> = { status: true };
+
+  const [total, products] = await Promise.all([
+    Product.countDocuments(filter),
+    Product.find(filter)
+      .populate('user', 'username')
+      .populate('category', 'name')
+      .skip(parsedOffset)
+      .limit(parsedLimit),
+  ]);
+
+  res.status(200).json({
+    total,
+    limit: parsedLimit,
+    offset: parsedOffset,
+    products,
+  });
 };
 
 export const getProduct: RequestHandler = async (req, res) => {
-  res.status(200).json({ req });
+  const { id } = req.params;
+  const product = await Product.findById(id)
+    .populate('user', 'username')
+    .populate('category', 'name');
+
+  res.status(200).json({ product });
 };
 
 export const postProduct: RequestHandler = async (req, res) => {
