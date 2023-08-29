@@ -1,11 +1,24 @@
 import { RequestHandler } from 'express';
+import { FilterQuery } from 'mongoose';
 
-import { User } from '../models/user';
+import { IUser, User } from '../models/user';
 import { encrypt } from '../helpers/encrypt';
+import { intParser } from '../helpers/intParser';
 
-export const getUsers: RequestHandler = (req, res) => {
-  const { query } = req;
-  res.status(200).json({ query });
+export const getUsers: RequestHandler = async (req, res) => {
+  const { limit, offset } = req.query;
+
+  const parsedLimit = intParser(limit as string, 5);
+  const parsedOffset = intParser(offset as string, 0);
+
+  const filter: FilterQuery<IUser> = { status: true };
+
+  const [total, users] = await Promise.all([
+    User.count(filter),
+    User.find(filter).limit(parsedLimit).skip(parsedOffset),
+  ]);
+
+  res.status(200).json({ total, users });
 };
 
 export const postUser: RequestHandler = async (req, res) => {
