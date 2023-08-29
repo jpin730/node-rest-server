@@ -1,6 +1,6 @@
 import { ObjectId, Schema, model } from 'mongoose';
 
-interface ICategory {
+export interface ICategory {
   name: string;
   status: boolean;
   user: ObjectId;
@@ -19,7 +19,7 @@ const CategorySchema = new Schema<ICategory>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'Usuario',
+    ref: 'User',
     required: true,
   },
 });

@@ -4,12 +4,13 @@ import { FilterQuery } from 'mongoose';
 import { IUser, User } from '../models/user';
 import { encrypt } from '../helpers/encrypt';
 import { intParser } from '../helpers/intParser';
+import { DEFAULT_LIMIT, DEFAULT_OFFSET } from '../utils/constants';
 
 export const getUsers: RequestHandler = async (req, res) => {
   const { limit, offset } = req.query;
 
-  const parsedLimit = intParser(limit as string, 5);
-  const parsedOffset = intParser(offset as string, 0);
+  const parsedLimit = intParser(limit as string, DEFAULT_LIMIT);
+  const parsedOffset = intParser(offset as string, DEFAULT_OFFSET);
 
   const filter: FilterQuery<IUser> = { status: true };
 
@@ -18,7 +19,9 @@ export const getUsers: RequestHandler = async (req, res) => {
     User.find(filter).limit(parsedLimit).skip(parsedOffset),
   ]);
 
-  res.status(200).json({ total, users });
+  res
+    .status(200)
+    .json({ total, limit: parsedLimit, offset: parsedOffset, users });
 };
 
 export const postUser: RequestHandler = async (req, res) => {

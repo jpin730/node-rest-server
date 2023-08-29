@@ -4,3 +4,6 @@ export enum RolesEnum {
 }
 
 export const Roles = Object.values(RolesEnum);
+
+export const DEFAULT_LIMIT = 5;
+export const DEFAULT_OFFSET = 0;
