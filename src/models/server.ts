@@ -7,6 +7,7 @@ import { authRouter } from '../routes/authRouter';
 import { categoryRouter } from '../routes/categoryRouter';
 import { productRouter } from '../routes/productRouter';
 import { searchRouter } from '../routes/searchRouter';
+import { uploadRouter } from '../routes/uploadRouter';
 
 export class Server {
   private app = express();
@@ -20,6 +21,7 @@ export class Server {
     category: '/api/category',
     product: '/api/product',
     search: '/api/search',
+    upload: '/api/upload',
   };
 
   constructor() {
@@ -44,6 +46,7 @@ export class Server {
     this.app.use(this.path.category, categoryRouter);
     this.app.use(this.path.product, productRouter);
     this.app.use(this.path.search, searchRouter);
+    this.app.use(this.path.upload, uploadRouter);
   }
 
   listen() {
