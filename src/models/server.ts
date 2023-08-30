@@ -1,5 +1,6 @@
 import express from 'express';
 import cors, { CorsOptions } from 'cors';
+import fileUpload, { Options } from 'express-fileupload';
 
 import { usersRouter } from '../routes/usersRouter';
 import { dbConnection } from '../database/config';
@@ -12,8 +13,12 @@ import { uploadRouter } from '../routes/uploadRouter';
 export class Server {
   private app = express();
   private port = process.env.PORT;
-  corsOptions: CorsOptions = {
+  private corsOptions: CorsOptions = {
     origin: process.env.CORS_ORIGIN,
+  };
+  private fileUploadOptions: Options = {
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
   };
   private path = {
     users: '/api/users',
@@ -38,6 +43,7 @@ export class Server {
     this.app.use(cors(this.corsOptions));
     this.app.use(express.json());
     this.app.use(express.static('public'));
+    this.app.use(fileUpload(this.fileUploadOptions));
   }
 
   private routes() {
@@ -47,6 +53,7 @@ export class Server {
     this.app.use(this.path.product, productRouter);
     this.app.use(this.path.search, searchRouter);
     this.app.use(this.path.upload, uploadRouter);
+    this.app.use('*', (_, res) => res.redirect('/'));
   }
 
   listen() {
