@@ -11,6 +11,7 @@ import {
 import { validateJWT } from '../middlewares/validateJWT';
 import { validateFields } from '../middlewares/validateFields';
 import { categoryExists, productExists } from '../helpers/validators';
+import { isAdmin } from '../middlewares/validateRoles';
 
 const productRouter = Router();
 
@@ -37,24 +38,26 @@ productRouter.post(
 );
 productRouter.put(
   '/:id',
-  //   [
-  //     validateJWT,
-  //     check('id', 'Id is invalid').isMongoId(),
-  //     check('name', 'Name is required').notEmpty(),
-  //     check('id').custom(categoryExists),
-  //     validateFields,
-  //   ],
+  [
+    validateJWT,
+    check('id', 'Id is invalid').isMongoId(),
+    check('id').custom(productExists),
+    check('name', 'Name is required').notEmpty(),
+    check('category', 'Category is invalid').isMongoId(),
+    check('category').custom(categoryExists),
+    validateFields,
+  ],
   putProduct,
 );
 productRouter.delete(
   '/:id',
-  //   [
-  //     validateJWT,
-  //     isAdmin,
-  //     check('id', 'Id is invalid').isMongoId(),
-  //     check('id').custom(categoryExists),
-  //     validateFields,
-  //   ],
+  [
+    validateJWT,
+    isAdmin,
+    check('id', 'Id is invalid').isMongoId(),
+    check('id').custom(productExists),
+    validateFields,
+  ],
   deleteProduct,
 );
 

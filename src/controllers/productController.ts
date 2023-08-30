@@ -41,7 +41,6 @@ export const getProduct: RequestHandler = async (req, res) => {
 
 export const postProduct: RequestHandler = async (req, res) => {
   const name = req.body.name.toUpperCase();
-
   const { category, user, description, price, inStock } = req.body;
 
   const productExists = !!(await Product.findOne({ name }));
@@ -69,9 +68,43 @@ export const postProduct: RequestHandler = async (req, res) => {
 };
 
 export const putProduct: RequestHandler = async (req, res) => {
-  res.status(200).json({ req });
+  const { id } = req.params;
+  const name = req.body.name.toUpperCase();
+  const { category, user, description, price, inStock } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        name,
+        category,
+        user: user._id,
+        description,
+        price,
+        inStock,
+      },
+      { new: true },
+    )
+      .populate('user', 'username')
+      .populate('category', 'name');
+
+    res.status(201).json({ updatedProduct });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 export const deleteProduct: RequestHandler = async (req, res) => {
-  res.status(200).json({ req });
+  const { id } = req.params;
+
+  try {
+    const deletedProduct = await Product.findByIdAndUpdate(
+      id,
+      { status: false },
+      { new: true },
+    );
+    res.json({ deletedProduct });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
