@@ -1,6 +1,6 @@
 # Node REST Server
 
-This project is for implementation of a REST Server with ExpressJS.
+This project is for implementation of a REST Server with ExpressJS. This app has multiple CRUD endpoints using MongoDB, authentication with JWT and Google Identity and file upload endpoint for the user's avatar using Cloudinary.
 
 ## Usage
 
