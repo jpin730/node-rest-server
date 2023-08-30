@@ -63,7 +63,7 @@ export const googleSignIn: RequestHandler = async (req, res) => {
 
     if (!user?.status) {
       return res.status(401).json({
-        error: 'User si disabled',
+        error: 'User is disabled',
       });
     }
 
