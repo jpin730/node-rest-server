@@ -102,7 +102,9 @@ export const deleteProduct: RequestHandler = async (req, res) => {
       id,
       { status: false },
       { new: true },
-    );
+    )
+      .populate('user', 'username')
+      .populate('category', 'name');
     res.json({ deletedProduct });
   } catch (error) {
     res.status(500).json(error);
