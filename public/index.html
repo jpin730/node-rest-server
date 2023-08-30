@@ -20,11 +20,11 @@
         <hr />
 
         <div class="d-flex flex-column align-items-center gap-3 py-3">
-          <div id="google-sign-in">
+          <div id="google-sign-in" class="d-none">
             <div
               id="g_id_onload"
               data-auto_prompt="false"
-              data-client_id="290903500448-msd8cbc2mu0bheovou6nui87m9q6ovtc.apps.googleusercontent.com"
+              data-client_id="GOOGLE_CLIENT_ID"
               data-callback="handleCredentialResponse"
             ></div>
             <div
@@ -41,7 +41,7 @@
 
           <button
             id="google-sign-out"
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-secondary d-none"
             onclick="handleGoogleLogout()"
           >
             Google Sign Out
@@ -54,14 +54,6 @@
       </div>
 
       <script>
-        const email = localStorage.getItem('email');
-
-        if (email) {
-          document.getElementById('google-sign-in').style.display = 'none';
-        } else {
-          document.getElementById('google-sign-out').style.display = 'none';
-        }
-
         function handleCredentialResponse({ credential }) {
           fetch(`${location.origin}/api/auth/google`, {
             method: 'POST',
