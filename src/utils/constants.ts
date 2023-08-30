@@ -15,3 +15,5 @@ export enum CollectionEnum {
 }
 
 export const COLLECTIONS = Object.values(CollectionEnum) as string[];
+
+export const VALID_IMG_MIME_TYPES = ['image/jpeg', 'image/png'];
