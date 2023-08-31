@@ -4,7 +4,7 @@ import { FilterQuery } from 'mongoose';
 import { IUser, User } from '../models/user';
 import { encrypt } from '../helpers/encrypt';
 import { intParser } from '../helpers/intParser';
-import { DEFAULT_LIMIT, DEFAULT_OFFSET } from '../utils/constants';
+import { DEFAULT_LIMIT, DEFAULT_OFFSET, RolesEnum } from '../utils/constants';
 
 export const getUsers: RequestHandler = async (req, res) => {
   const { limit, offset } = req.query;
@@ -25,9 +25,9 @@ export const getUsers: RequestHandler = async (req, res) => {
 };
 
 export const postUser: RequestHandler = async (req, res) => {
-  const { role, password, email, username } = req.body;
+  const { password, email, username } = req.body;
   const createdUser = new User({
-    role,
+    role: RolesEnum.USER,
     password,
     email,
     username,

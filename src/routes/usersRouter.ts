@@ -23,14 +23,11 @@ usersRouter.get('/', [validateJWT, hasRole(RolesEnum.ADMIN)], getUsers);
 usersRouter.post(
   '/',
   [
-    validateJWT,
-    isAdmin,
     check('username', 'Username is required').notEmpty(),
     check('password', 'Password must have 6 or more characters').isLength({
       min: 6,
     }),
     check('email', 'Email format is invalid').isEmail(),
-    check('role').custom(isValidRole),
     check('email').custom(emailDoesNotExists),
     validateFields,
   ],
