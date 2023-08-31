@@ -9,6 +9,7 @@ import { categoryRouter } from '../routes/categoryRouter';
 import { productRouter } from '../routes/productRouter';
 import { searchRouter } from '../routes/searchRouter';
 import { uploadRouter } from '../routes/uploadRouter';
+import { rolesRouter } from '../routes/rolesRouter';
 
 export class Server {
   private app = express();
@@ -22,6 +23,7 @@ export class Server {
   };
   private path = {
     users: '/api/users',
+    roles: '/api/roles',
     auth: '/api/auth',
     category: '/api/category',
     product: '/api/product',
@@ -48,6 +50,7 @@ export class Server {
 
   private routes() {
     this.app.use(this.path.users, usersRouter);
+    this.app.use(this.path.roles, rolesRouter);
     this.app.use(this.path.auth, authRouter);
     this.app.use(this.path.category, categoryRouter);
     this.app.use(this.path.product, productRouter);
