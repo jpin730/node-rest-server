@@ -11,14 +11,14 @@ import {
 import { validateFields } from '../middlewares/validateFields';
 import { validateJWT } from '../middlewares/validateJWT';
 import { categoryExists } from '../helpers/validators';
-import { isAdmin } from '../middlewares/validateRoles';
 
 const categoryRouter = Router();
 
-categoryRouter.get('/', getAllCategories);
+categoryRouter.get('/', [validateJWT], getAllCategories);
 categoryRouter.get(
   '/:id',
   [
+    validateJWT,
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(categoryExists),
     validateFields,
@@ -45,7 +45,6 @@ categoryRouter.delete(
   '/:id',
   [
     validateJWT,
-    isAdmin,
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(categoryExists),
     validateFields,

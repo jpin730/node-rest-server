@@ -19,10 +19,12 @@ import { RolesEnum } from '../utils/constants';
 
 const usersRouter = Router();
 
-usersRouter.get('/', getUsers);
+usersRouter.get('/', [validateJWT, hasRole(RolesEnum.ADMIN)], getUsers);
 usersRouter.post(
   '/',
   [
+    validateJWT,
+    isAdmin,
     check('username', 'Username is required').notEmpty(),
     check('password', 'Password must have 6 or more characters').isLength({
       min: 6,
@@ -37,6 +39,8 @@ usersRouter.post(
 usersRouter.put(
   '/:id',
   [
+    validateJWT,
+    isAdmin,
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(userExist),
     check('role').custom(isValidRole),
@@ -49,7 +53,6 @@ usersRouter.delete(
   [
     validateJWT,
     isAdmin,
-    hasRole(RolesEnum.ADMIN),
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(userExist),
     validateFields,

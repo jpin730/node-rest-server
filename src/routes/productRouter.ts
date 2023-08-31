@@ -11,14 +11,14 @@ import {
 import { validateJWT } from '../middlewares/validateJWT';
 import { validateFields } from '../middlewares/validateFields';
 import { categoryExists, productExists } from '../helpers/validators';
-import { isAdmin } from '../middlewares/validateRoles';
 
 const productRouter = Router();
 
-productRouter.get('/', getAllProducts);
+productRouter.get('/', [validateJWT], getAllProducts);
 productRouter.get(
   '/:id',
   [
+    validateJWT,
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(productExists),
     validateFields,
@@ -53,7 +53,6 @@ productRouter.delete(
   '/:id',
   [
     validateJWT,
-    isAdmin,
     check('id', 'Id is invalid').isMongoId(),
     check('id').custom(productExists),
     validateFields,
