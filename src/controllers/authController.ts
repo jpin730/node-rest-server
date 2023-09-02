@@ -30,9 +30,10 @@ export const login: RequestHandler = async (req, res) => {
       });
     }
 
-    const token = await generateJWT(user.id);
+    const token = await generateJWT(user.id, '1h');
+    const refresh = await generateJWT(user.id, '2h');
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ user, token, refresh });
   } catch {
     res.status(500).json({
       error: 'Could not complete login',
@@ -67,9 +68,10 @@ export const googleSignIn: RequestHandler = async (req, res) => {
       });
     }
 
-    const token = await generateJWT(user.id);
+    const token = await generateJWT(user.id, '1h');
+    const refresh = await generateJWT(user.id, '2h');
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ user, token, refresh });
   } catch {
     res.status(500).json({
       error: 'Could not complete Google sign in',
