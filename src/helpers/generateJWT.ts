@@ -1,6 +1,6 @@
 import { SignCallback, SignOptions, sign } from 'jsonwebtoken';
 
-export const generateJWT = (uid: string, expiresIn: '1h' | '2h') =>
+export const generateJWT = (uid: string, expiresIn: string) =>
   new Promise((resolve, reject) => {
     const payload = { uid };
     const secret = process.env.JWT_SECRET as string;

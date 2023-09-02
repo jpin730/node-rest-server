@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { googleSignIn, login } from '../controllers/authController';
+import { checkToken, googleSignIn, login } from '../controllers/authController';
 import { validateFields } from '../middlewares/validateFields';
+import { validateJWT } from '../middlewares/validateJWT';
 
 const authRouter = Router();
 
+authRouter.get('/check', validateJWT, checkToken);
 authRouter.post(
   '/login',
   [

@@ -47,7 +47,10 @@
             Google Sign Out
           </button>
 
-          <a href="https://documenter.getpostman.com/view/12311811/2s9Y5ZwNRY">
+          <a
+            target="_blank"
+            href="https://documenter.getpostman.com/view/12311811/2s9Y5ZwNRY"
+          >
             API Reference
           </a>
         </div>
@@ -63,18 +66,15 @@
             .then((res) => res.json())
             .then(({ user }) => {
               user.email && localStorage.setItem('email', user.email);
-              location.reload();
             })
             .catch(() => localStorage.removeItem('email'));
         }
 
         function handleGoogleLogout() {
-          console.log('object');
           google.accounts.id.disableAutoSelect();
 
           google.accounts.id.revoke(localStorage.getItem('email'), (done) => {
             localStorage.removeItem('email');
-            location.reload();
           });
         }
       </script>

@@ -17,3 +17,6 @@ export enum CollectionEnum {
 export const COLLECTIONS = Object.values(CollectionEnum) as string[];
 
 export const VALID_IMG_MIME_TYPES = ['image/jpeg', 'image/png'];
+
+export const TOKEN_EXP_TIME = '1h';
+export const REFRESH_EXP_TIME = '2h';
