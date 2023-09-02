@@ -9,6 +9,7 @@ import {
   RolesEnum,
   TOKEN_EXP_TIME,
 } from '../utils/constants';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 export const checkToken: RequestHandler = async (req, res) => {
   const { user } = req.body;
@@ -16,12 +17,9 @@ export const checkToken: RequestHandler = async (req, res) => {
   try {
     const token = await generateJWT(user.id, TOKEN_EXP_TIME);
     const refresh = await generateJWT(user.id, REFRESH_EXP_TIME);
-
     res.status(201).json({ user, token, refresh });
   } catch {
-    res.status(500).json({
-      error: 'Could not complete login',
-    });
+    res.status(500).json(createErrorResponse('Could not complete login'));
   }
 };
 
@@ -33,20 +31,20 @@ export const login: RequestHandler = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ error: 'Email or password are incorrect - email' });
+        .json(createErrorResponse('Email or password are incorrect'));
     }
 
     if (!user.status) {
       return res
         .status(400)
-        .json({ error: 'Email or password are incorrect - status' });
+        .json(createErrorResponse('Email or password are incorrect'));
     }
 
     const validPassword = compareSync(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({
-        error: 'Email or password are incorrect - password',
-      });
+      return res
+        .status(400)
+        .json(createErrorResponse('Email or password are incorrect'));
     }
 
     const token = await generateJWT(user.id, TOKEN_EXP_TIME);
@@ -54,9 +52,7 @@ export const login: RequestHandler = async (req, res) => {
 
     res.status(201).json({ user, token, refresh });
   } catch {
-    res.status(500).json({
-      error: 'Could not complete login',
-    });
+    res.status(500).json(createErrorResponse('Could not complete login'));
   }
 };
 
@@ -82,9 +78,7 @@ export const googleSignIn: RequestHandler = async (req, res) => {
     }
 
     if (!user?.status) {
-      return res.status(401).json({
-        error: 'User is disabled',
-      });
+      return res.status(401).json(createErrorResponse('User is disabled'));
     }
 
     const token = await generateJWT(user.id, '1h');
@@ -92,8 +86,8 @@ export const googleSignIn: RequestHandler = async (req, res) => {
 
     res.status(201).json({ user, token, refresh });
   } catch {
-    res.status(500).json({
-      error: 'Could not complete Google sign in',
-    });
+    res
+      .status(500)
+      .json(createErrorResponse('Could not complete Google sign in'));
   }
 };

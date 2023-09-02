@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import { User } from '../models/user';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 interface jwtPayload {
   uid: string;
@@ -11,7 +12,7 @@ export const validateJWT: RequestHandler = async (req, res, next) => {
   const token = req.header('x-token');
 
   if (!token) {
-    return res.status(401).json({ error: 'Token is required' });
+    return res.status(401).json(createErrorResponse('Token is required'));
   }
 
   try {
@@ -20,18 +21,14 @@ export const validateJWT: RequestHandler = async (req, res, next) => {
 
     const user = await User.findById(uid);
 
-    if (!user) {
-      return res.status(401).json({ error: 'Token is invalid - uid' });
-    }
-
-    if (!user.status) {
-      return res.status(401).json({ error: 'Token is invalid - status' });
+    if (!user || !user.status) {
+      return res.status(401).json(createErrorResponse('Token is invalid'));
     }
 
     req.body = { ...req.body, user };
 
     next();
   } catch {
-    res.status(401).json({ error: 'Token invalid' });
+    res.status(401).json(createErrorResponse('Token is invalid'));
   }
 };

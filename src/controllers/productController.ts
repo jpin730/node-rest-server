@@ -4,6 +4,7 @@ import { FilterQuery } from 'mongoose';
 import { IProduct, Product } from '../models/product';
 import { intParser } from '../helpers/intParser';
 import { DEFAULT_LIMIT, DEFAULT_OFFSET } from '../utils/constants';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 export const getAllProducts: RequestHandler = async (req, res) => {
   const { limit, offset } = req.query;
@@ -46,7 +47,7 @@ export const postProduct: RequestHandler = async (req, res) => {
   const productExists = !!(await Product.findOne({ name }));
 
   if (productExists) {
-    return res.status(400).json({ error: 'Product already exists' });
+    return res.status(400).json(createErrorResponse('Product already exists'));
   }
 
   const createdProduct = new Product({
@@ -62,8 +63,8 @@ export const postProduct: RequestHandler = async (req, res) => {
   try {
     await createdProduct.save();
     res.status(201).json({ createdProduct });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -89,8 +90,8 @@ export const putProduct: RequestHandler = async (req, res) => {
       .populate('category', 'name');
 
     res.status(201).json({ updatedProduct });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -106,7 +107,7 @@ export const deleteProduct: RequestHandler = async (req, res) => {
       .populate('user', 'username')
       .populate('category', 'name');
     res.json({ deletedProduct });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };

@@ -4,6 +4,7 @@ import { FilterQuery } from 'mongoose';
 import { Category, ICategory } from '../models/category';
 import { intParser } from '../helpers/intParser';
 import { DEFAULT_LIMIT, DEFAULT_OFFSET } from '../utils/constants';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 export const getAllCategories: RequestHandler = async (req, res) => {
   const { limit, offset } = req.query;
@@ -39,7 +40,7 @@ export const postCategory: RequestHandler = async (req, res) => {
   const categoryExists = !!(await Category.findOne({ name }));
 
   if (categoryExists) {
-    return res.status(400).json({ error: `Category already exists` });
+    return res.status(400).json(createErrorResponse('Category already exists'));
   }
 
   const createdCategory = new Category({
@@ -50,8 +51,8 @@ export const postCategory: RequestHandler = async (req, res) => {
   try {
     await createdCategory.save();
     res.status(201).json({ createdCategory });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -70,8 +71,8 @@ export const putCategory: RequestHandler = async (req, res) => {
     ).populate('user', 'username');
 
     res.status(201).json({ updatedCategory });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -84,7 +85,7 @@ export const deleteCategory: RequestHandler = async (req, res) => {
     }).populate('user', 'username');
 
     res.status(201).json({ deletedCategory });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };

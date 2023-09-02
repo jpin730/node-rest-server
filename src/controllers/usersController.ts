@@ -5,6 +5,7 @@ import { IUser, User } from '../models/user';
 import { encrypt } from '../helpers/encrypt';
 import { intParser } from '../helpers/intParser';
 import { DEFAULT_LIMIT, DEFAULT_OFFSET, RolesEnum } from '../utils/constants';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 export const getUsers: RequestHandler = async (req, res) => {
   const { limit, offset } = req.query;
@@ -38,8 +39,8 @@ export const postUser: RequestHandler = async (req, res) => {
   try {
     await createdUser.save();
     res.status(201).json({ createdUser });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -61,8 +62,8 @@ export const putUser: RequestHandler = async (req, res) => {
       { returnDocument: 'after' },
     );
     res.status(201).json({ modifiedUser });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };
 
@@ -76,7 +77,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
       { returnDocument: 'after' },
     );
     res.status(201).json({ deletedUser });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };

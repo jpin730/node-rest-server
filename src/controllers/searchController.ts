@@ -5,6 +5,7 @@ import { COLLECTIONS, CollectionEnum } from '../utils/constants';
 import { User } from '../models/user';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 const searchUsers = async (query: string, res: Response) => {
   if (isValidObjectId(query)) {
@@ -87,9 +88,13 @@ export const search: RequestHandler = (req, res) => {
       break;
 
     default:
-      res.status(400).json({
-        error: `Invalid collection. Allowed collections: ${COLLECTIONS}`,
-      });
+      res
+        .status(400)
+        .json(
+          createErrorResponse(
+            `Invalid collection. Allowed collections: ${COLLECTIONS}`,
+          ),
+        );
       break;
   }
 };

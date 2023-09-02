@@ -4,6 +4,7 @@ import { Document, Types } from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
 
 import { IUser, User } from '../models/user';
+import { createErrorResponse } from '../helpers/createErrorResponse';
 
 type UserDocument = Document<unknown, unknown, IUser> &
   IUser & {
@@ -34,7 +35,7 @@ export const putAvatar: RequestHandler = async (req, res) => {
     await updatedUser.save();
 
     res.status(201).json({ updatedUser });
-  } catch (error) {
-    res.status(500).json({ error });
+  } catch {
+    res.status(500).json(createErrorResponse('Server error'));
   }
 };

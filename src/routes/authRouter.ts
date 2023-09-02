@@ -19,7 +19,7 @@ authRouter.post(
 );
 authRouter.post(
   '/google',
-  [check('id_token', 'Token is required').notEmpty(), validateFields],
+  [check('id_token', 'Google token is required').notEmpty(), validateFields],
   googleSignIn,
 );
 

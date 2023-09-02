@@ -14,7 +14,7 @@ uploadRouter.put(
   [
     validateJWT,
     validateFile,
-    check('id').isMongoId(),
+    check('id', 'Id is invalid').isMongoId(),
     check('id').custom(userExist),
     validateFields,
   ],
