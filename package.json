@@ -2,7 +2,7 @@
   "name": "node-rest-server",
   "scripts": {
     "build": "tsc",
-    "start": "node api/index.js",
+    "start": "node dist/index.js",
     "dev": "nodemon --watch scr --ext ts --exec 'ts-node' scr/index.ts",
     "lint": "eslint .",
     "format": "prettier . --write",

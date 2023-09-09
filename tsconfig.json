@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "outDir": "./api"
+    "outDir": "./dist"
   },
-  "include": ["./src/**/*"]
+  "include": ["api/**/*"]
 }
