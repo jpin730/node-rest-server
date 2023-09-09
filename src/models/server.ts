@@ -44,10 +44,8 @@ export class Server {
   private middleware() {
     this.app.use(cors(this.corsOptions));
     this.app.use(express.json());
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV !== 'production')
       this.app.use(express.static('public'));
-    }
     this.app.use(fileUpload(this.fileUploadOptions));
   }
 
