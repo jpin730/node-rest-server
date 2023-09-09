@@ -1,9 +1,9 @@
 {
   "name": "node-rest-server",
   "scripts": {
-    "build": "npm ci --ignore-scripts && tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon --watch src --ext ts --exec 'ts-node' src/app.ts",
+    "build": "tsc",
+    "start": "node api/index.js",
+    "dev": "nodemon --watch src --ext ts --exec 'ts-node' src/index.ts",
     "lint": "eslint .",
     "format": "prettier . --write",
     "prepare": "husky install"
