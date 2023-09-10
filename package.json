@@ -40,6 +40,6 @@
     "lint": "eslint src",
     "prepare": "husky install",
     "start": "ts-node src/app.ts",
-    "vercel-build": "echo skip vercel build && echo $NODE_ENV && echo $VERCEL_ENV"
+    "vercel-build": "echo skip vercel build"
   }
 }

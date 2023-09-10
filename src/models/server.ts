@@ -44,7 +44,7 @@ export class Server {
   private middleware() {
     this.app.use(cors(this.corsOptions));
     this.app.use(express.json());
-    if (process.env.NODE_ENV !== 'production')
+    if (process.env.VERCEL_ENV !== 'production')
       this.app.use(express.static('public'));
     this.app.use(fileUpload(this.fileUploadOptions));
   }
