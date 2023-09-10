@@ -11,6 +11,10 @@
   "routes": [
     {
       "dest": "api/index.js",
+      "src": "/api/(.*)"
+    },
+    {
+      "dest": "public/index.js",
       "src": "/(.*)"
     }
   ],
