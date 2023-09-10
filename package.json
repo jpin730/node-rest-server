@@ -39,7 +39,6 @@
     "format": "prettier src --write",
     "lint": "eslint src",
     "prepare": "husky install",
-    "start": "ts-node src/app.ts",
-    "vercel-build": "echo skip vercel build"
+    "start": "ts-node src/app.ts"
   }
 }
