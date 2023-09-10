@@ -9,5 +9,3 @@ server.listen();
 const { app } = server;
 
 export default app;
-
-console.log(process.env.NODE_ENV, process.env.VERCEL_ENV);
