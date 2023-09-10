@@ -6,4 +6,8 @@ const server = new Server();
 
 server.listen();
 
-console.log(process.env.NODE_ENV);
+const { app } = server;
+
+export default app;
+
+console.log(process.env.NODE_ENV, process.env.VERCEL_ENV);

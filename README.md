@@ -16,21 +16,15 @@ Install dependencies
 npm install
 ```
 
-Run app in develop mode
+Run app locally in develop mode
 
 ```
 npm run dev
 ```
 
-Run app in production mode
-
-```
-npm run build && npm start
-```
-
 ## App hosting
 
-https://jpin730-node-rest-server.onrender.com
+https://node-rest-server-jpin730.vercel.app
 
 ## API Reference
 
