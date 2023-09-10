@@ -1,4 +1,6 @@
 {
+  "buildCommand": "",
+  "installCommand": "npm ci --ignore-scripts",
   "rewrites": [
     {
       "destination": "/api",
