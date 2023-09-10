@@ -34,6 +34,7 @@
   },
   "name": "node-rest-server",
   "scripts": {
+    "add-build": "git add api",
     "build": "tsc",
     "dev": "nodemon --watch src --ext ts --exec 'ts-node' src/index.ts",
     "format": "prettier . --write",
