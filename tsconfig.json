@@ -1,7 +1,17 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
-    "outDir": "api"
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "api",
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+    "sourceMap": true,
+    "target": "es6"
   },
   "include": ["src/**/*"]
 }
