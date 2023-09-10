@@ -7,3 +7,7 @@ const server = new Server();
 console.log(process.env.NODE_ENV);
 
 server.listen();
+
+const app = server.app;
+
+export default app;

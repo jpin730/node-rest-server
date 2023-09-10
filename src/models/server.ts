@@ -12,7 +12,7 @@ import { uploadRouter } from '../routes/uploadRouter';
 import { rolesRouter } from '../routes/rolesRouter';
 
 export class Server {
-  private app = express();
+  app = express();
   private port = process.env.PORT;
   private corsOptions: CorsOptions = {
     origin: process.env.CORS_ORIGIN,
