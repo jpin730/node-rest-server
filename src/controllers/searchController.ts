@@ -6,8 +6,9 @@ import {
   CollectionEnum,
   DEFAULT_LIMIT,
   DEFAULT_OFFSET,
+  RolesEnum,
 } from '../utils/constants';
-import { User } from '../models/user';
+import { IUser, User } from '../models/user';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
 import { createErrorResponse } from '../helpers/createErrorResponse';
@@ -120,6 +121,7 @@ const searchProducts = async (
 };
 
 export const search: RequestHandler = (req, res) => {
+  const { role } = req.body.user as IUser;
   const { limit, offset } = req.query;
 
   const parsedLimit = intParser(limit as string, DEFAULT_LIMIT);
@@ -129,7 +131,11 @@ export const search: RequestHandler = (req, res) => {
 
   switch (collection) {
     case CollectionEnum.USERS:
-      searchUsers(query, res, parsedLimit, parsedOffset);
+      if (role === RolesEnum.ADMIN) {
+        searchUsers(query, res, parsedLimit, parsedOffset);
+        break;
+      }
+      res.status(403).json(createErrorResponse('User has no privilegies'));
       break;
 
     case CollectionEnum.CATEGORIES:
