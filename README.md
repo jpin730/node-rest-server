@@ -22,14 +22,6 @@ Run app locally in develop mode
 npm run dev
 ```
 
-## App hosting
-
-https://node-rest-server-jpin730.vercel.app
-
-## API Reference
-
-https://documenter.getpostman.com/view/12311811/2s9Y5ZwNRY
-
 ## Frontend Repository
 
 https://github.com/jpin730/angular-rest-client
